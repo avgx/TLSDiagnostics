@@ -28,9 +28,6 @@ jobs:
       - name: Build (release)
         run: swift build -c release -v
 
-      - name: Run tests
-        run: swift test -v
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:

@@ -3,7 +3,7 @@ import Testing
 import SSLPinning
 @testable import TLSDiagnostics
 
-@Suite("TLS Diagnostics Integration")
+@Suite("TLS Diagnostics Integration", .serialized)
 struct TLSDiagnosticsTests {
 
     private func probe(

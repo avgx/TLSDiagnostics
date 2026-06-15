@@ -14,8 +14,8 @@ enum ProbeNetworkSession {
         
         let configuration = URLSessionConfiguration.ephemeral
 
-        configuration.timeoutIntervalForRequest = 5
-        configuration.timeoutIntervalForResource = 5
+        configuration.timeoutIntervalForRequest = 10
+        configuration.timeoutIntervalForResource = 10
 
         let session = URLSession(
             configuration: configuration,
