@@ -140,8 +140,7 @@ struct TLSDiagnosticsTests {
         )
 
         #expect(
-            leaf.commonName == nil ||
-            leaf.commonName?.isEmpty == true
+            leaf.commonName.isEmpty == true
         )
     }
 
@@ -169,11 +168,11 @@ struct TLSDiagnosticsTests {
         )
 
         #expect(
-            leaf.notValidBefore != nil
+            leaf.validityRange.notBefore < Date()
         )
 
         #expect(
-            leaf.notValidAfter != nil
+            leaf.validityRange.notAfter > Date()
         )
     }
 
@@ -188,7 +187,7 @@ struct TLSDiagnosticsTests {
             discovered.chain.first
         )
         
-        let pin = Pin(
+        let pin = Fingerprint(
             host: "pinning-test.badssl.com",
             serialNumber: leaf.serialNumber,
             sha256: leaf.sha256,
@@ -210,7 +209,7 @@ struct TLSDiagnosticsTests {
         let result = try await TLSProbe.inspect(
             for: URL(string: "https://www.example.com")!,
             policy: .pinning([
-                Pin(
+                Fingerprint(
                     host: "www.example.com",
                     serialNumber: "00",
                     sha256: "00",
@@ -219,8 +218,8 @@ struct TLSDiagnosticsTests {
             ])
         )
 
-        guard case .pinMismatch = result.pinningError else {
-            Issue.record("Expected pinMismatch")
+        guard case .fingerprintMismatch(_, _, _) = result.pinningError else {
+            Issue.record("Expected fingerprintMismatch")
             return
         }
     }
